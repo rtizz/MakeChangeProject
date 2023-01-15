@@ -4,25 +4,25 @@ import java.util.Scanner;
 
 public class MakeChange {
 
-	public static void main(String[]args) {
-	Scanner scan = new Scanner(System.in);
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
 
 ///////***Initial variable and prompts***/////////////////////////////////////////////////////////////////
 
 		double price;
 		double amountTendered;
-
-		System.out.println("Please enter the price of the item.");
+		
+		System.out.println();
+		System.out.print("Please enter the price of the item: ");
 		price = scan.nextDouble();
 
-		System.out.println("Please enter the amount of money tendered");
+		System.out.print("Please enter the amount of money tendered: ");
 		amountTendered = scan.nextDouble();
-		scan.close();
 
 ///////***Response for Exact change or too little***//////////////////////////////////////////////////////
 
 		if (amountTendered < price) {
-			System.out.print("Thats not enough, please visit an ATM, and return when you have enough.");
+			System.out.print("Thats not enough, please visit an ATM.");
 		} else if (amountTendered == price) {
 			System.out.print("Perfect Change!!! Thank you!!");
 		}
@@ -30,106 +30,115 @@ public class MakeChange {
 ///////***Setting up variables for nested if statements///////////////////////////////////////////////////	
 
 		double change = (amountTendered - price);// initial amount of change
-		int dollarChange = (int) (change); // updated to give a whole number to dollars remaining
-		double centsPreCast = (change - dollarChange) * 100; // converts decimals whole number - trailing decimals
-		
-		double centChange = centsPreCast; // + .005; // casting to int removes trailing decimals
-		int finalCent = (int) centChange; // ensures cents is rounded to its respective ceiling.
+		int dollarChange = (int) (change); // cast to int to give a whole number to dollars remaining
+		double centsPreCast = (change - dollarChange) * 100; // converting the cents to whole number and remove from
+																// dollars
+		double centChange = centsPreCast + .005; // adding .005 to account for remaining decimals for rounding
+		// before casting
+		int finalCent = (int) centChange; // ensures cents is rounded to its respective true value.
 
-		//totalDollars(dollarChange);
-		//totalCents(finalCent);
-		
+		if (change > .01) {
+			System.out.print("Your total change is: ");
+			totalDollars(dollarChange);
+			totalCents(finalCent);
+		}
 
+		scan.close();
 
-		int twenty;
-		int ten;
-		int five;
-		int one;
-		
+	}// main
+
+// method for dollars
+	public static void totalDollars(int dollars) {
+		int jackson;
+		int hamilton;
+		int lincoln;
+		int washington;
+//82.30
+		jackson = dollars / 20; // 4
+		if (jackson == 0) {
+			System.out.print("");
+		}
+		if (jackson > 1) {
+			System.out.print(jackson + " twenty dollar bills, "); // 3
+		} else if (jackson == 1) {
+			System.out.print(jackson + " twenty dollar bill, ");
+		}
+
+		dollars = dollars % 20; // 2
+		hamilton = dollars / 10;
+		if (hamilton == 0) {
+			System.out.print("");
+		} else {
+			System.out.print(hamilton + " ten dollar bill, ");
+		}
+		dollars = dollars % 10; // 2
+		lincoln = dollars / 5;
+		if (lincoln == 0) {
+			System.out.print("");
+		} else {
+			System.out.print(lincoln + " five dollar bill, ");
+		}
+		dollars = dollars % 5; // 4
+		if (dollars > 1) {
+			washington = dollars / 1;
+			if (washington == 0) {
+				System.out.print("");
+			}
+			if (washington > 1) {
+				System.out.print(washington + " one dollar bills, ");
+			} else if (washington == 1) {
+				System.out.print(washington + " one dollar bill, ");
+			}
+		} else {
+			System.out.println();
+		}
+
+	}// End of totalDollars
+
+// method for cents
+	public static void totalCents(int cents) {
+
 		int quarter;
 		int dime;
 		int nickel;
-		int penny;
-		
-		
-		
-		//test Run Dollars
-		
-		// 79
-		twenty = dollarChange / 20;
-		System.out.print(twenty + " twenty dollar bills, "); //3
-		if (twenty == 1) {
-			System.out.print(twenty + " twenty dollar bill, ");
+		int penny = 0;
+//quarters
+		quarter = cents / 25;
+		if (quarter == 0) {
+			System.out.print("");
+		} else if (quarter > 1) {
+			System.out.print(quarter + " quarters, ");
+		} else {
+			System.out.print(quarter + " quarter, ");
 		}
-		dollarChange = dollarChange % 20; //19
-		ten = dollarChange / 10;
-		System.out.println(ten + " ten dollar bill");
-		
-		//.79
-		//testRunCents
-		quarter = finalCent / 25; 
-		System.out.println(quarter + " quarters, "); //3
-		finalCent = finalCent % 25;
-		
-		dime = finalCent / 10;
-		System.out.println(dime + " dime, ");
-		finalCent = finalCent % 10;
-		
-		nickel = finalCent / 5;
-		System.out.println(nickel + " nickel, ");
-		finalCent = finalCent % 5;
-		
-		//penny = final
-		
-		
-		
-	}// main
-
-	// method for dollars
-	public static void totalDollars(int dollars) {
-		int remaining;
-		int output;
-
-		if (dollars > 20) {
-			output = dollars / 20;
-			System.out.print(output + " twenty dollar bill, ");
-			remaining = dollars - (output * 20);
-
-			if (remaining > 10) {
-				output = remaining / 10;
-				System.out.print(output + " ten dollar bill, ");
-				remaining = remaining - (output * 10);
-				if (remaining > 5) {
-					output = remaining / 5;
-					System.out.print(output + " five dollar bill, ");
-					remaining = remaining - (output * 5);
-					if (remaining > 1) {
-						output = remaining / 1;
-						System.out.print(output + " dollar bills");
-					} else if (remaining == 1) {
-						output = remaining;
-						System.out.print(output + " dollar bill.");
-					}
-				}
-			}
-			if (remaining > 5) {
-				output = remaining / 5;
-				System.out.print(output + " five dollar bill, ");
-				remaining = remaining - (output * 5);
-				if (remaining > 1) {
-					output = remaining / 1;
-					System.out.print(output + " dollar bills");
-				} else if (remaining == 1) {
-					output = remaining;
-					System.out.print(output + " dollar bill.");
-				}
-			}
+		cents = cents % 25; // 24
+//dimes
+		dime = cents / 10;
+		if (dime == 0) {
+			System.out.print("");
+		} else if (dime > 2) {
+			System.out.print(dime + " dimes, "); // 2
+		} else {
+			System.out.print(dime + " dime, ");
 		}
-	}
+		cents = cents % 10; // 4
+//nickels
+		nickel = cents / 5;
+		if (nickel == 0) {
+			System.out.print("");
+		} else {
+			System.out.print(nickel + " nickel, ");
+		}
+		cents = cents % 5;
+//pennies	
+		penny = cents;
+		if (penny == 0) {
+			System.out.print("");
+		} else if (penny > 1) {
+			System.out.print(penny + " pennies.");
+		} else if (penny == 1) {
+			System.out.print(penny + " penny.");
+		}
+	} // End of totalCents
 
-	// method for cents
-	public static void totalCents(int cents) {
-		System.out.println(cents);
-
-	}
 }// class
